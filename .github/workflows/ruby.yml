@@ -10,15 +10,15 @@ permissions:
 
 jobs:
   script:
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v3
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
-      with:
-        ruby-version: 3.0.0
-        bundler-cache: true
-    - name: Run Script
-      run: | 
-        bundle install --path vendor/bundle
-        bundle exec ruby main.rb  ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
+        with:
+          ruby-version: 3.0.0
+          bundler-cache: true
+      - name: Run Script
+        run: | 
+          bundle install --path vendor/bundle
+          bundle exec ruby main.rb  ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}
