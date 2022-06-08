@@ -16,7 +16,7 @@ forecasts = res['forecasts']
 forecast = forecasts.find{ |f| f['dateLabel'] == '今日' }
 min_temp = forecast['temperature']['min']['celsius']
 max_temp = forecast['temperature']['max']['celsius']
-chance_of_rains = forecast['chanceOfRain'].map { |k, v| "#{k}: #{v}"  }.join("\n")
+chance_of_rains = forecast['chanceOfRain'].map { |k, v| "#{k}: #{v}" }.join("\n")
 
 message = "日時:#{public_time_formatted}\n概要:#{text}\n最低気温:#{min_temp}\n最高気温:#{max_temp}\n#{chance_of_rains}"
 
