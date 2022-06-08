@@ -2,7 +2,7 @@ name: wheather_notification_to_slack
 
 on:
   schedule: 
-    - cron: '13 18 * * *'
+    - cron: '13 20 * * *'
   workflow_dispatch:
 
 permissions:
