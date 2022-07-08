@@ -22,3 +22,4 @@ jobs:
         run: | 
           bundle install --path vendor/bundle
           bundle exec ruby main.rb  ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}
+        timeout-minutes: 1
