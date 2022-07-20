@@ -159,7 +159,7 @@ func main() {
 		}
 	}
 
-	message := "日時:" + res.PublicTimeFormatted + "\n概要:" + res.Description.Text + "\n最低気温:" + todayForecast.Temperature.Min.Celsius + "\n最高気温:" + todayForecast.Temperature.Max.Celsius + "\n" + "\n00-06:" + todayForecast.ChanceOfRain.T0006 + "\n06-12" + todayForecast.ChanceOfRain.T0612 + "\n12-18" + todayForecast.ChanceOfRain.T1218 + "\n18-24" + todayForecast.ChanceOfRain.T1824
+	message := "日時:" + res.PublicTimeFormatted + "\n概要:" + res.Description.Text + "\n最低気温:" + todayForecast.Temperature.Min.Celsius + "\n最高気温:" + todayForecast.Temperature.Max.Celsius + "\n" + "\n00-06:" + todayForecast.ChanceOfRain.T0006 + "\n06-12:" + todayForecast.ChanceOfRain.T0612 + "\n12-18:" + todayForecast.ChanceOfRain.T1218 + "\n18-24:" + todayForecast.ChanceOfRain.T1824
 
 	postSlack(message)
 }
