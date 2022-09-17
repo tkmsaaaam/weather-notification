@@ -9,7 +9,7 @@ import (
 )
 
 func getWeather() string {
-	body, err := weather.Get(os.Args[1])
+	body, err := weather.New().Get(os.Args[1])
 	if err != nil {
 		fmt.Println("Error Request API")
 	}
