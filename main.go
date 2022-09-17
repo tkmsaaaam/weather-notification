@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/slack-go/slack"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -110,14 +110,19 @@ func requestApi(url string) ([]byte, error) {
 		return nil, err
 	}
 
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		var err = Body.Close()
+		if err != nil {
+
+		}
+	}(resp.Body)
 
 	if resp.StatusCode != 200 {
 		fmt.Println("Error Response:", resp.Status)
 		return nil, err
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatalf("ioutil.ReadAll err=%s", err.Error())
 	}
