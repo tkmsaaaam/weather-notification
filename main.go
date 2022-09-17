@@ -22,21 +22,15 @@ func requestApi(url string) ([]byte, error) {
 		return nil, err
 	}
 
-	defer func(Body io.ReadCloser) {
-		var err = Body.Close()
-		if err != nil {
-
-		}
-	}(resp.Body)
-
 	if resp.StatusCode != 200 {
 		fmt.Println("Error Response:", resp.Status)
 		return nil, err
 	}
 
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalf("ioutil.ReadAll err=%s", err.Error())
+	body, readErr := io.ReadAll(resp.Body)
+	if readErr != nil {
+		log.Fatalf("ioutil.ReadAll err=%s", readErr.Error())
+		return nil, readErr
 	}
 
 	return body, nil
