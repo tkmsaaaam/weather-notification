@@ -1,9 +1,11 @@
-name: wheather_notification_to_slack
+name: weather_notification_to_slack
 
 on:
   schedule: 
     - cron: '13 20 * * *'
   workflow_dispatch:
+
+permissions: {}
 
 jobs:
   script:
