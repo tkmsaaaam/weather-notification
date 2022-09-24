@@ -1,5 +1,6 @@
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/dnaeon/go-vcr v1.2.0 h1:zHCHvJYTMh1N7xnV7zf1m1GPBF9Ad0Jk/whtQ1663qI=
 github.com/go-test/deep v1.0.4 h1:u2CU3YKy9I2pmu9pX0eq50wCgjfGIt539SqR7FbHiho=
 github.com/go-test/deep v1.0.4/go.mod h1:wGDj63lr65AM2AQyKZd/NYHGb0R+1RLqB8NKt3aSFNA=
 github.com/google/go-cmp v0.5.7 h1:81/ik6ipDQS2aGcBfIN5dHDB36BwrStyeAQquSYCV4o=
@@ -10,10 +11,14 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/slack-go/slack v0.11.3 h1:GN7revxEMax4amCc3El9a+9SGnjmBvSUobs0QnO6ZO8=
 github.com/slack-go/slack v0.11.3/go.mod h1:hlGi5oXA+Gt+yWTPP0plCdRKmjsDxecdHxYQdlMQKOw=
-github.com/stretchr/testify v1.2.2 h1:bSDNvY7ZPG5RlJ8otE/7V6gMiyenm9RtJ7IUVIAoJ1w=
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
-github.com/tkmsaaaam/weather-api-go v0.0.0-20220917065352-65324d07aab9 h1:7cRf4/2U89MpZT+DgFaWQI3lgQrODw1DMNjXhZ/tdgI=
-github.com/tkmsaaaam/weather-api-go v0.0.0-20220917065352-65324d07aab9/go.mod h1:Jyumu6YiVEfG9GK9RvRbVFZYxugTbNL3PVUx1M4LURE=
-github.com/tkmsaaaam/weather-api-go v0.0.0-20220917114057-a7e765705fa1 h1:SNFzf6uBKC1yYn0MwvCRrl7nOz+ROn0tNUmVrHmzLgE=
-github.com/tkmsaaaam/weather-api-go v0.0.0-20220917114057-a7e765705fa1/go.mod h1:Jyumu6YiVEfG9GK9RvRbVFZYxugTbNL3PVUx1M4LURE=
+github.com/stretchr/testify v1.8.0 h1:pSgiaMZlXftHpm5L7V1+rVB+AZJydKsMxsQBIJw4PKk=
+github.com/tkmsaaaam/weather-api-go v0.0.0-20220918031601-e7e36bfef983 h1:zwE6/hOTf5Wf8fMUvlEmQYk+ZWvUJZ+AZtc7DTsQWEg=
+github.com/tkmsaaaam/weather-api-go v0.0.0-20220918031601-e7e36bfef983/go.mod h1:QzuMeV/EJWDEsD1VPuvq4MLu+Xd9gviVE9VwH1S5U50=
+github.com/tkmsaaaam/weather-api-go v0.0.0-20220922235904-3d2ea9b8e363 h1:1v5KkF/cZbK/U/0lSJh5DFnG2zCSI1OBuFb1RuZW4G8=
+github.com/tkmsaaaam/weather-api-go v0.0.0-20220922235904-3d2ea9b8e363/go.mod h1:QzuMeV/EJWDEsD1VPuvq4MLu+Xd9gviVE9VwH1S5U50=
+github.com/tkmsaaaam/weather-api-go v0.0.0-20220923000349-278c2429b0e8 h1:9rxtUs7x4Dn2DZ90X4ANFCqwBG5fsDtLxGsMHqFT5s4=
+github.com/tkmsaaaam/weather-api-go v0.0.0-20220923000349-278c2429b0e8/go.mod h1:QzuMeV/EJWDEsD1VPuvq4MLu+Xd9gviVE9VwH1S5U50=
 golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543/go.mod h1:I/5z698sn9Ka8TeJc9MKroUUfqBBauWjQqLJ2OPfmY0=
+gopkg.in/yaml.v2 v2.2.8 h1:obN1ZagJSUGI0Ek/LBmuj4SNLPfIny3KsKFopxRdj10=
+gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
