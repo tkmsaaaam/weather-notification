@@ -1,12 +1,9 @@
 name: weather_notification_to_slack
-
 on:
-  schedule: 
+  schedule:
     - cron: '13 20 * * *'
   workflow_dispatch:
-
 permissions: {}
-
 jobs:
   script:
     runs-on: ubuntu-latest
