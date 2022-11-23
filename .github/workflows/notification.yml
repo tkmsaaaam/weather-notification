@@ -3,7 +3,8 @@ on:
   schedule:
     - cron: '13 20 * * *'
   workflow_dispatch:
-permissions: {}
+permissions:
+  actions: write
 jobs:
   script:
     runs-on: ubuntu-latest
@@ -16,3 +17,9 @@ jobs:
       - name: Run Script
         run: go run main.go  ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}
         timeout-minutes: 1
+      - name: disable self action
+        run: |
+          gh workflow disable "weather_notification_to_slack"
+          gh workflow enable "weather_notification_to_slack"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
