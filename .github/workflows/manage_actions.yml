@@ -1,0 +1,21 @@
+name: manage_action
+on:
+  schedule:
+    - cron: '13 22 1 * *'
+  workflow_dispatch:
+permissions:
+  actions: write
+jobs:
+  script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Re-Activate self action
+        run: |
+          gh workflow disable "weather_notification_to_slack"
+          gh workflow enable "weather_notification_to_slack"
+          gh workflow disable "manage_action"
+          gh workflow enable "manage_action"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
