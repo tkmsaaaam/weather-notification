@@ -1,0 +1,17 @@
+name: build
+on:
+  workflow_dispatch:
+permissions: { }
+jobs:
+  script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Use cache
+        uses: actions/cache@v2
+        with:
+          path: ~/weather-notification
+          key: ${{ runner.os }}-go-${{ hashFiles('/main.go') }}
+      - name: run
+        run: weather-notification ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}

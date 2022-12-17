@@ -1,0 +1,29 @@
+name: build
+on:
+  workflow_dispatch:
+permissions: { }
+jobs:
+  script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ^1.19
+        id: go
+      - name: setup cache
+        uses: actions/cache@v2
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: ${{ runner.os }}-go-
+      - name: Run Script
+        run: go build
+      - name: Add cache
+        uses: actions/cache@v2
+        with:
+          path: ~/weather-notification
+          key: ${{ runner.os }}-go-${{ hashFiles('/main.go') }}
+          restore-keys: ${{ runner.os }}-go-${{ hashFiles('/main.go') }}
