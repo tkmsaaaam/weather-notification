@@ -29,3 +29,5 @@ jobs:
           path: ~/build
           key: ${{ runner.os }}-go-${{ hashFiles('**.go') }}
           restore-keys: ${{ runner.os }}-go-${{ hashFiles('**.go') }}
+      - name: execute
+        run: build/weather-notification ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}
