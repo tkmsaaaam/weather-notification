@@ -25,5 +25,5 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/weather-notification
-          key: ${{ runner.os }}-go-${{ hashFiles('/main.go') }}
-          restore-keys: ${{ runner.os }}-go-${{ hashFiles('/main.go') }}
+          key: ${{ runner.os }}-go-${{ hashFiles('**.go') }}
+          restore-keys: ${{ runner.os }}-go-${{ hashFiles('**.go') }}

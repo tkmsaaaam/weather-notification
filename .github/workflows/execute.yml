@@ -1,4 +1,4 @@
-name: build
+name: execute
 on:
   workflow_dispatch:
 permissions: { }
@@ -12,6 +12,6 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/weather-notification
-          key: ${{ runner.os }}-go-${{ hashFiles('/main.go') }}
+          key: ${{ runner.os }}-go-${{ hashFiles('**.go') }}
       - name: run
         run: weather-notification ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}
