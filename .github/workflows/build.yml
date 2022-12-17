@@ -20,10 +20,12 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: ${{ runner.os }}-go-
       - name: Run Script
-        run: go build
+        run: |
+          mkdir build
+          go build -o build
       - name: Add cache
         uses: actions/cache@v2
         with:
-          path: ~/
+          path: ~/build
           key: ${{ runner.os }}-go-${{ hashFiles('**.go') }}
           restore-keys: ${{ runner.os }}-go-${{ hashFiles('**.go') }}

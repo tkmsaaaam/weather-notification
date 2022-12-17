@@ -11,7 +11,7 @@ jobs:
       - name: Use cache
         uses: actions/cache@v2
         with:
-          path: ~/
+          path: ~/build
           key: ${{ runner.os }}-go-${{ hashFiles('**.go') }}
       - name: run
-        run: ./weather-notification ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}
+        run: build/weather-notification ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}
