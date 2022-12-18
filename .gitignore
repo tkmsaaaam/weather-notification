@@ -1,5 +1,3 @@
-/.bundle
-/vendor
 .idea
 .DS_Store
-weather-notification
+build
