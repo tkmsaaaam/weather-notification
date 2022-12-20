@@ -32,11 +32,9 @@ jobs:
     needs: script
     runs-on: ubuntu-latest
     steps:
-      - run: mkdir build
       - uses: actions/cache@v3
         with:
-          path: ~/build/
-          key: built-weather-notification
+          restore-keys: built-weather-notification
       - name: Execute
         run: |
           ls
