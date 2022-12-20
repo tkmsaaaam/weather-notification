@@ -26,7 +26,7 @@ jobs:
       - name: Add cache
         uses: actions/cache@v3
         with:
-          path: ~/build/weather-notification
+          path: ~/build/
           key: built-weather-notification
   execute:
     needs: script
@@ -35,7 +35,7 @@ jobs:
       - run: mkdir build
       - uses: actions/cache@v3
         with:
-          path: ~/build/weather-notification
+          path: ~/build/
           key: built-weather-notification
       - name: Execute
         run: |
