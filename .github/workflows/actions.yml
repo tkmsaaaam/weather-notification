@@ -26,7 +26,7 @@ jobs:
       - name: Add cache
         uses: actions/cache@v3
         with:
-          path: weather-notification/build/
+          path: weather-notification/build
           key: built-weather-notification
   execute:
     needs: script
