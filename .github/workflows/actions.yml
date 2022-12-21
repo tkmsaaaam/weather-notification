@@ -26,7 +26,7 @@ jobs:
       - name: Add cache
         uses: actions/cache@v3
         with:
-          path: ~/build/
+          path: weather-notification/build/
           key: built-weather-notification
   execute:
     needs: script
@@ -38,5 +38,5 @@ jobs:
       - name: Execute
         run: |
           ls
-          ls build
+          ls weather-notification/build
           build/weather-notification ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}
