@@ -24,7 +24,7 @@ jobs:
           mkdir build
           go build -o build
       - name: Add cache
-        uses: actions/cache@v3
+        uses: actions/cache/save@v3
         with:
           path: weather-notification/build
           key: built-weather-notification
@@ -32,9 +32,10 @@ jobs:
     needs: script
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/cache@v3
+      - uses: actions/cache/restore@v3
         with:
-          restore-keys: built-weather-notification
+          path: weather-notification/build
+          key: built-weather-notification
       - name: Execute
         run: |
           ls
