@@ -26,6 +26,7 @@ jobs:
           mkdir build
           go build -o build
           ls build
+          cd ~/ && pwd && ls
       - name: Add cache
         uses: actions/cache/save@v3
         with:
