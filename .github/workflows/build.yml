@@ -1,4 +1,4 @@
-name: actions
+name: build
 on:
   workflow_dispatch:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 permissions: { }
 jobs:
-  script:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

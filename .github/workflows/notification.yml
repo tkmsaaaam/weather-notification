@@ -6,7 +6,6 @@ on:
 permissions: { }
 jobs:
   execute:
-    needs: script
     runs-on: ubuntu-latest
     steps:
       - uses: actions/cache/restore@v3
