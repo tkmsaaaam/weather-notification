@@ -30,7 +30,7 @@ jobs:
       - name: Add cache
         uses: actions/cache/save@v3
         with:
-          path: ~/weather-notification/build
+          path: ~/work/weather-notification/weather-notification/build
           key: ${{ runner.os }}-go-${{ github.sha }}
   execute:
     needs: script
@@ -38,10 +38,10 @@ jobs:
     steps:
       - uses: actions/cache/restore@v3
         with:
-          path: ~/weather-notification/build
+          path: ~/work/weather-notification/weather-notification/build
           key: ${{ runner.os }}-go-${{ github.sha }}
       - name: Execute
         run: |
           ls
-          ls ~/weather-notification/build
-          ~/weather-notification/build/weather-notification ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}
+          ls ~/work/weather-notification/weather-notification/build
+          ~/work/weather-notification/weather-notification/build/weather-notification ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}
