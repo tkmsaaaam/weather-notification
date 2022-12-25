@@ -20,13 +20,11 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
       - name: Build
-        run: |
-          mkdir build
-          go build -o build
+        run: go build
       - name: Add cache
         uses: actions/cache/save@v3
         with:
-          path: ~/work/weather-notification/weather-notification/build
+          path: ~/work/weather-notification/weather-notification/weather-notification
           key: ${{ runner.os }}-go-${{ github.sha }}
   execute:
     needs: script
@@ -34,7 +32,7 @@ jobs:
     steps:
       - uses: actions/cache/restore@v3
         with:
-          path: ~/work/weather-notification/weather-notification/build
+          path: ~/work/weather-notification/weather-notification/weather-notification
           key: ${{ runner.os }}-go-${{ github.sha }}
       - name: Execute
-        run: ~/work/weather-notification/weather-notification/build/weather-notification ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}
+        run: ~/work/weather-notification/weather-notification/weather-notification ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}
