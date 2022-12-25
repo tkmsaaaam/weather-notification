@@ -22,11 +22,9 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
       - name: Build
-        run: |
-          mkdir build
-          go build -o build
+        run: go build
       - name: Add cache
         uses: actions/cache/save@v3
         with:
-          path: ~/work/weather-notification/weather-notification/build
+          path: ~/work/weather-notification/weather-notification/weather-notification
           key: ${{ runner.os }}-go-${{ github.sha }}
