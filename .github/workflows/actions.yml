@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/cache/restore@v3
         with:
-          path: ~/work/weather-notification/weather-notification/weather-notification
+          path: ~/weather-notification
           key: ${{ runner.os }}-go-actions-${{ github.sha }}
       - name: Execute
-        run: ~/work/weather-notification/weather-notification/weather-notification ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}
+        run: ~/weather-notification ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}
