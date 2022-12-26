@@ -1,7 +1,7 @@
 name: actions
 on:
   workflow_dispatch:
-permissions: { }
+permissions: {}
 jobs:
   script:
     runs-on: ubuntu-latest
