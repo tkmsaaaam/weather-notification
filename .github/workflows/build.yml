@@ -8,6 +8,8 @@ permissions: {}
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      REPO_NAME: weather-notification
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -26,5 +28,5 @@ jobs:
       - name: Add cache
         uses: actions/cache/save@v3
         with:
-          path: ~/work/weather-notification/weather-notification/weather-notification
+          path: ~/work/$REPO_NAME/$REPO_NAME/$REPO_NAME
           key: ${{ runner.os }}-go-${{ github.sha }}
