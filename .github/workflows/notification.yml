@@ -12,7 +12,7 @@ jobs:
       - name: Restore Cache
         uses: actions/cache/restore@v3
         with:
-          path: ~/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+          path: ${{ github.workspace }}/${{ github.event.repository.name }}
           key: ${{ runner.os }}-go-${{ github.sha }}
       - name: Execute
-        run: ~/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}/${{ github.event.repository.name }} ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}
+        run: ${{ github.workspace }}/${{ github.event.repository.name }} ${{ secrets.CITY_ID }} ${{ secrets.TOKEN_FOR_SLACK_BOT }} ${{ secrets.SLACK_CHANNEL_ID }}
