@@ -3,6 +3,9 @@ on:
   schedule:
     - cron: "13 20 * * *"
   workflow_dispatch:
+  workflow_run:
+    workflows: [build]
+    types: [completed]
 permissions: {}
 jobs:
   execute:
