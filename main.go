@@ -9,7 +9,7 @@ import (
 )
 
 func getWeather() string {
-	body, err := weather.New().Get(os.Args[1])
+	body, err := weather.New().Get(os.Getenv("CITY_ID"))
 	if err != nil {
 		fmt.Println("Error Request API")
 	}
@@ -31,10 +31,10 @@ func getWeather() string {
 }
 
 func postSlack(message string) {
-	token := os.Args[2]
+	token := os.Getenv("TOKEN_FOR_SLACK_BOT")
 	c := slack.New(token)
 
-	_, _, err := c.PostMessage(os.Args[3], slack.MsgOptionText(message, true))
+	_, _, err := c.PostMessage(os.Getenv("SLACK_CHANNEL_ID"), slack.MsgOptionText(message, true))
 	if err != nil {
 		panic(err)
 	}
