@@ -4,31 +4,53 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '**/*.go'
-      - 'go.mod'
-      - 'go.sum'
-permissions: {}
+permissions:
+  actions: write
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Check Cache Hit
+        id: cache-hit
+        uses: actions/cache/restore@v3
+        with:
+          path: ${{ github.workspace }}/${{ github.event.repository.name }}
+          key: ${{ runner.os }}-go-main-${{ hashFiles('**/go.sum', 'main.go') }}
+      - name: Extension install
+        if: steps.cache-hit.outputs.cache-hit != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh extension install actions/gh-actions-cache
+      - name: Remove old cache
+        if: steps.cache-hit.outputs.cache-hit != 'true'
+        env:
+          CACHENAME: ${{ runner.os }}-go-main-
+        run: |
+          gh actions-cache list -R $GITHUB_REPOSITORY \
+          | xargs -I@ echo @ \
+          | awk \
+          -v cachename=$CACHENAME \
+          '{if(index($1,cachename) != 0){print $1}}' \
+          | xargs -I% gh actions-cache delete % -R $GITHUB_REPOSITORY --confirm
       - name: Setup Go
+        if: steps.cache-hit.outputs.cache-hit != 'true'
         uses: actions/setup-go@v3
         with:
           go-version-file: "go.mod"
       - name: setup cache
+        if: steps.cache-hit.outputs.cache-hit != 'true'
         uses: actions/cache@v3
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
       - name: Build
+        if: steps.cache-hit.outputs.cache-hit != 'true'
         run: go build
       - name: Add cache
+        if: steps.cache-hit.outputs.cache-hit != 'true'
         uses: actions/cache/save@v3
         with:
           path: ${{ github.workspace }}/${{ github.event.repository.name }}
-          key: ${{ runner.os }}-go-${{ github.sha }}
+          key: ${{ runner.os }}-go-main-${{ hashFiles('**/go.sum', 'main.go') }}
