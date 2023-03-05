@@ -27,6 +27,7 @@ jobs:
         if: steps.cache-hit.outputs.cache-hit != 'true'
         env:
           CACHENAME: ${{ runner.os }}-go-main-
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh actions-cache list -R $GITHUB_REPOSITORY \
           | xargs -I@ echo @ \
