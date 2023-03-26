@@ -7,13 +7,4 @@ permissions:
   actions: write
 jobs:
   script:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Re-Activate self action
-        run: |
-          gh workflow list --repo $GITHUB_REPOSITORY | xargs -I@ echo @ | awk '{print $1}' | xargs -I% gh workflow disable % --repo $GITHUB_REPOSITORY
-          gh workflow list -a --repo $GITHUB_REPOSITORY | xargs -I@ echo @ | awk '{print $1}' | xargs -I% gh workflow enable % --repo $GITHUB_REPOSITORY
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    uses: tkmsaaaam/manage-slack/.github/workflows/manage_action.yml@main
