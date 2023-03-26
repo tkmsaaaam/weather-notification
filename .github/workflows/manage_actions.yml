@@ -3,6 +3,11 @@ on:
   schedule:
     - cron: "13 22 1 * *"
   workflow_dispatch:
+  push:
+    branches:
+      - "main"
+    paths:
+      - ".github/workflows/manage_actions.yml"
 permissions:
   actions: write
 jobs:
