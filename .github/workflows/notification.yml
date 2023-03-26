@@ -7,20 +7,11 @@ on:
     workflows: [build]
     types: [completed]
 permissions: {}
+env:
+  CITY_ID: ${{ secrets.CITY_ID }}
+  TOKEN_FOR_SLACK_BOT: ${{ secrets.TOKEN_FOR_SLACK_BOT }}
+  SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
 jobs:
+  timeout-minutes: 10
   execute:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Restore Cache
-        uses: actions/cache/restore@v3
-        with:
-          path: ${{ github.workspace }}/${{ github.event.repository.name }}
-          key: ${{ runner.os }}-go-main-
-          restore-keys: ${{ runner.os }}-go-main-
-      - name: Execute
-        run: ${{ github.workspace }}/${{ github.event.repository.name }}
-        env:
-          CITY_ID: ${{ secrets.CITY_ID }}
-          TOKEN_FOR_SLACK_BOT: ${{ secrets.TOKEN_FOR_SLACK_BOT }}
-          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+    uses: tkmsaaaam/count-commits-js/.github/workflows/reusing.yml
