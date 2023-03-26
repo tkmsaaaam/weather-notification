@@ -12,6 +12,5 @@ env:
   TOKEN_FOR_SLACK_BOT: ${{ secrets.TOKEN_FOR_SLACK_BOT }}
   SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
 jobs:
-  timeout-minutes: 10
   execute:
     uses: tkmsaaaam/count-commits-js/.github/workflows/reusing.yml@main
