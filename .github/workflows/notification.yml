@@ -14,4 +14,4 @@ env:
 jobs:
   timeout-minutes: 10
   execute:
-    uses: tkmsaaaam/count-commits-js/.github/workflows/reusing.yml
+    uses: tkmsaaaam/count-commits-js/.github/workflows/reusing.yml@main
