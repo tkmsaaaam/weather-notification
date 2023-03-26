@@ -13,4 +13,4 @@ env:
   SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
 jobs:
   execute:
-    uses: tkmsaaaam/count-commits-js/.github/workflows/reusing.yml@main
+    uses: tkmsaaaam/count-commits-js/.github/workflows/reusing_execute.yml@main
