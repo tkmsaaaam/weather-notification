@@ -31,7 +31,7 @@ func getWeather() string {
 }
 
 func postSlack(message string) {
-	token := os.Getenv("TOKEN_FOR_SLACK_BOT")
+	token := os.Getenv("SLACK_BOT_TOKEN")
 	c := slack.New(token)
 
 	_, _, err := c.PostMessage(os.Getenv("SLACK_CHANNEL_ID"), slack.MsgOptionText(message, true))

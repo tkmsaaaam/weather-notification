@@ -7,10 +7,10 @@ on:
     workflows: [build]
     types: [completed]
 permissions: {}
-env:
-  CITY_ID: ${{ secrets.CITY_ID }}
-  TOKEN_FOR_SLACK_BOT: ${{ secrets.TOKEN_FOR_SLACK_BOT }}
-  SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
 jobs:
   execute:
     uses: tkmsaaaam/count-commits-js/.github/workflows/reusing_execute.yml@main
+    secrets:
+      CITY_ID: ${{ secrets.CITY_ID }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
