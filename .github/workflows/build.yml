@@ -11,3 +11,5 @@ permissions:
 jobs:
   build:
     uses: tkmsaaaam/count-commits-js/.github/workflows/reusing_build.yml@main
+    secrets:
+      FILE_NAME: main
