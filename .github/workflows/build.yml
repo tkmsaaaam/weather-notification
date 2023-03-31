@@ -10,6 +10,6 @@ permissions:
   actions: write
 jobs:
   build:
-    uses: tkmsaaaam/count-commits-js/.github/workflows/reusing_build.yml@main
+    uses: tkmsaaaam/manage-slack/.github/workflows/reusing_build.yml@main
     secrets:
       FILE_NAME: main
