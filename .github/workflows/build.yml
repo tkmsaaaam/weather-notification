@@ -11,5 +11,5 @@ permissions:
 jobs:
   build:
     uses: tkmsaaaam/manage-slack/.github/workflows/reusing_build.yml@main
-    secrets:
+    with:
       FILE_NAME: main
