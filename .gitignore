@@ -1,3 +1,5 @@
 .idea
 .DS_Store
 weather-notification
+*.html
+*.out

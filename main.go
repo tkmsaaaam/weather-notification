@@ -8,6 +8,10 @@ import (
 	"strings"
 )
 
+type SlackClient struct {
+	*slack.Client
+}
+
 func getWeather() string {
 	body, err := weather.New().Get(os.Getenv("CITY_ID"))
 	if err != nil {
@@ -30,17 +34,15 @@ func getWeather() string {
 	return message
 }
 
-func postSlack(message string) {
-	token := os.Getenv("SLACK_BOT_TOKEN")
-	c := slack.New(token)
-
-	_, _, err := c.PostMessage(os.Getenv("SLACK_CHANNEL_ID"), slack.MsgOptionText(message, true))
+func (client SlackClient) postSlack(message string) {
+	_, _, err := client.PostMessage(os.Getenv("SLACK_CHANNEL_ID"), slack.MsgOptionText(message, true))
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
 }
 
 func main() {
 	message := getWeather()
-	postSlack(message)
+	client := slack.New(os.Getenv("SLACK_BOT_TOKEN"))
+	SlackClient{client}.postSlack(message)
 }
