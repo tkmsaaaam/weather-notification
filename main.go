@@ -12,8 +12,12 @@ type SlackClient struct {
 	*slack.Client
 }
 
-func getWeather() string {
-	body, err := weather.New().Get(os.Getenv("CITY_ID"))
+type WeatherClient struct {
+	weather.Client
+}
+
+func (weatherClient WeatherClient) getWeather() string {
+	body, err := weatherClient.Get(os.Getenv("CITY_ID"))
 	if err != nil {
 		fmt.Println("Error Request API")
 	}
@@ -42,7 +46,8 @@ func (client SlackClient) postSlack(message string) {
 }
 
 func main() {
-	message := getWeather()
+	weatherClient := weather.New()
+	message := WeatherClient{weatherClient}.getWeather()
 	client := slack.New(os.Getenv("SLACK_BOT_TOKEN"))
 	SlackClient{client}.postSlack(message)
 }

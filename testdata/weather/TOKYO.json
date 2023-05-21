@@ -1,0 +1,72 @@
+{
+  "publicTime": "2023-05-01T17:00:00+09:00",
+  "publicTimeFormatted": "2023/05/01 17:00:00",
+  "publishingOffice": "気象庁",
+  "title": "東京都 東京 の天気",
+  "link": "https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=130000",
+  "description": {
+    "publicTime": "2023-05-19T15:00:00+09:00",
+    "publicTimeFormatted": "2023/05/19 15:00:00",
+    "headlineText": "",
+    "bodyText": "晴れています。\n夜は月が見えるでしょう。\n",
+    "text": "晴れています。\n夜は月が見えるでしょう。\n"
+  },
+  "forecasts": [
+    {
+      "date": "2023-05-19",
+      "dateLabel": "今日",
+      "telop": "晴",
+      "detail": {
+        "weather": "晴",
+        "wind": "やや強く",
+        "wave": "１メートル"
+      },
+      "temperature": {
+        "min": {
+          "celsius": "0",
+          "fahrenheit": ""
+        },
+        "max": {
+          "celsius": "30",
+          "fahrenheit": ""
+        }
+      },
+      "chanceOfRain": {
+        "T00_06": "--%",
+        "T06_12": "00%",
+        "T12_18": "50%",
+        "T18_24": "70%"
+      },
+      "image": {
+        "title": "晴",
+        "url": "https://www.jma.go.jp/bosai/forecast/img/300.svg",
+        "width": 80,
+        "height": 60
+      }
+    }
+  ],
+  "location": {
+    "area": "関東",
+    "prefecture": "東京都",
+    "district": "東京地方",
+    "city": "東京"
+  },
+  "copyright": {
+    "title": "(C) 天気予報 API（livedoor 天気互換）",
+    "link": "https://weather.tsukumijima.net/",
+    "image": {
+      "title": "天気予報 API（livedoor 天気互換）",
+      "link": "https://weather.tsukumijima.net/",
+      "url": "https://weather.tsukumijima.net/logo.png",
+      "width": 120,
+      "height": 120
+    },
+    "provider": [
+      {
+        "link": "https://www.jma.go.jp/jma/",
+        "name": "気象庁 Japan Meteorological Agency",
+        "note": "気象庁 HP にて配信されている天気予報を JSON データへ編集しています。"
+      }
+    ]
+  }
+}
