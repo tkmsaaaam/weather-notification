@@ -19,23 +19,27 @@ import (
 var weatherTokyo []byte
 
 func TestGetWeather(t *testing.T) {
+	type res struct {
+		status int
+		body   string
+	}
 	type wants struct {
 		message string
 		print   string
 	}
 	tests := []struct {
 		name   string
-		apiRes []byte
+		apiRes res
 		want   wants
 	}{
 		{
 			name:   "watherIsOk",
-			apiRes: weatherTokyo,
+			apiRes: res{status: 200, body: string(weatherTokyo)},
 			want:   wants{message: "\n----------\n日時:2023/05/01 17:00:00\n概要:晴れています。\n夜は月が見えるでしょう。\n\n最低気温:0\n最高気温:30\n\n00-06:--%\n06-12:00%\n12-18:50%\n18-24:70%\n----------\n", print: ""},
 		},
 		{
 			name:   "apiIsError",
-			apiRes: []byte{},
+			apiRes: res{status: 500, body: "Internal Server Error"},
 			want:   wants{message: "\n----------\n日時:\n概要:\n最低気温:\n最高気温:\n\n00-06:\n06-12:\n12-18:\n18-24:\n----------\n", print: "json.Unmarshal err: invalid character 'I' looking for beginning of value\nError Request API"},
 		},
 	}
@@ -44,12 +48,8 @@ func TestGetWeather(t *testing.T) {
 		t.Setenv("CITY_ID", TOKYO)
 		mux := http.NewServeMux()
 		mux.HandleFunc("/api/forecast/city/"+TOKYO, func(w http.ResponseWriter, _ *http.Request) {
-			if tt.name != "apiIsError" {
-				io.WriteString(w, string(tt.apiRes))
-			} else {
-				w.WriteHeader(500)
-				io.WriteString(w, "Internal Server Error")
-			}
+			w.WriteHeader(tt.apiRes.status)
+			io.WriteString(w, tt.apiRes.body)
 		})
 		weatherClient := WeatherClient{weather.Client{Client: &http.Client{Transport: localRoundTripper{handler: mux}}}}
 
