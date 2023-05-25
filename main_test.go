@@ -2,7 +2,7 @@ package main
 
 import (
 	"bytes"
-	_ "embed"
+	"embed"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -15,8 +15,8 @@ import (
 	"github.com/tkmsaaaam/weather-api-go"
 )
 
-//go:embed testdata/weather/TOKYO.json
-var weatherTokyo []byte
+//go:embed testdata/*
+var testdata embed.FS
 
 func TestGetWeather(t *testing.T) {
 	type res struct {
@@ -27,6 +27,7 @@ func TestGetWeather(t *testing.T) {
 		message string
 		print   string
 	}
+	weatherTokyo, _ := testdata.ReadFile("testdata/weather/TOKYO.json")
 	tests := []struct {
 		name   string
 		apiRes res
@@ -89,12 +90,6 @@ func (localRoundTripper localRoundTripper) RoundTrip(req *http.Request) (*http.R
 	return ressponseRecorder.Result(), nil
 }
 
-//go:embed testdata/ok.json
-var postSlackIsOk []byte
-
-//go:embed testdata/error.json
-var postSlackIsError []byte
-
 func TestPostSlack(t *testing.T) {
 	type args struct {
 		message string
@@ -102,19 +97,19 @@ func TestPostSlack(t *testing.T) {
 
 	tests := []struct {
 		name   string
-		apiRes []byte
+		apiRes string
 		args   args
 		want   string
 	}{
 		{
 			name:   "postSlackIsOk",
-			apiRes: postSlackIsOk,
+			apiRes: "testdata/ok.json",
 			args:   args{"message"},
 			want:   "",
 		},
 		{
 			name:   "postSlackIsError",
-			apiRes: postSlackIsError,
+			apiRes: "testdata/error.json",
 			args:   args{"message"},
 			want:   "too_many_attachments",
 		},
@@ -122,7 +117,8 @@ func TestPostSlack(t *testing.T) {
 	for _, tt := range tests {
 		ts := slacktest.NewTestServer(func(c slacktest.Customize) {
 			c.Handle("/chat.postMessage", func(w http.ResponseWriter, _ *http.Request) {
-				w.Write(tt.apiRes)
+				res, _ := testdata.ReadFile(tt.apiRes)
+				w.Write(res)
 			})
 		})
 		ts.Start()
