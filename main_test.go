@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"embed"
 	"io"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -57,19 +58,17 @@ func TestGetWeather(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Helper()
 
-			orgStdout := os.Stdout
-			defer func() {
-				os.Stdout = orgStdout
-			}()
-			r, w, _ := os.Pipe()
-			os.Stdout = w
-			got := weatherClient.getWeather()
-			w.Close()
 			var buf bytes.Buffer
-			if _, err := buf.ReadFrom(r); err != nil {
-				t.Fatalf("failed to read buf: %v", err)
-			}
-			if got != tt.want.message {
+			log.SetOutput(&buf)
+			defaultFlags := log.Flags()
+			log.SetFlags(0)
+			defer func() {
+				log.SetOutput(os.Stderr)
+				log.SetFlags(defaultFlags)
+				buf.Reset()
+			}()
+			got := weatherClient.getWeather()
+			if *got != tt.want.message {
 				t.Errorf("add() = %v, want %v", got, tt.want.message)
 			}
 			gotPrint := strings.TrimRight(buf.String(), "\n")
