@@ -68,7 +68,7 @@ func TestGetWeather(t *testing.T) {
 				log.SetFlags(defaultFlags)
 				buf.Reset()
 			}()
-			got := weatherClient.getWeather()
+			got, _ := weatherClient.getWeather()
 			if got != tt.want.message {
 				if *got != *tt.want.message {
 					t.Errorf("getWeather() = %v, want %v", *got, *tt.want.message)
