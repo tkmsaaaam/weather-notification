@@ -74,8 +74,8 @@ func main() {
 		return
 	}
 	pusher := Pusher{push.New(otelExporterEndpoint, "weather")}
-	pusher.send("max", "temperature", result.max)
-	pusher.send("min", "temperature", result.min)
+	pusher.send("temperature_max", "temperature", result.max)
+	pusher.send("temperature_min", "temperature", result.min)
 }
 
 type Pusher struct {
