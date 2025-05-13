@@ -21,9 +21,17 @@ type WeatherClient struct {
 	weather.Client
 }
 
+type ChanceOfRain struct {
+	T0006 int
+	T0612 int
+	T1218 int
+	T1824 int
+}
+
 type Result struct {
-	min int
-	max int
+	min          int
+	max          int
+	ChanceOfRain *ChanceOfRain
 }
 
 func (weatherClient WeatherClient) getWeather() (*string, *Result) {
@@ -48,7 +56,17 @@ func (weatherClient WeatherClient) getWeather() (*string, *Result) {
 	message := mark + "日時:" + body.PublicTimeFormatted + "\n概要:" + body.Description.Text[0:lastN] + "\n最低気温:" + todayForecast.Temperature.Min.Celsius + "\n最高気温:" + todayForecast.Temperature.Max.Celsius + "\n" + "\n00-06:" + todayForecast.ChanceOfRain.T0006 + "\n06-12:" + todayForecast.ChanceOfRain.T0612 + "\n12-18:" + todayForecast.ChanceOfRain.T1218 + "\n18-24:" + todayForecast.ChanceOfRain.T1824 + mark
 	max, _ := strconv.Atoi(todayForecast.Temperature.Max.Celsius)
 	min, _ := strconv.Atoi(todayForecast.Temperature.Min.Celsius)
-	return &message, &Result{max: max, min: min}
+	t0006, _ := strconv.Atoi(strings.ReplaceAll(todayForecast.ChanceOfRain.T0006, "%", ""))
+	t0612, _ := strconv.Atoi(strings.ReplaceAll(todayForecast.ChanceOfRain.T0612, "%", ""))
+	t1218, _ := strconv.Atoi(strings.ReplaceAll(todayForecast.ChanceOfRain.T1218, "%", ""))
+	t1824, _ := strconv.Atoi(strings.ReplaceAll(todayForecast.ChanceOfRain.T1824, "%", ""))
+	chanceOfRain := ChanceOfRain{
+		T0006: t0006,
+		T0612: t0612,
+		T1218: t1218,
+		T1824: t1824,
+	}
+	return &message, &Result{max: max, min: min, ChanceOfRain: &chanceOfRain}
 }
 
 func (client SlackClient) postSlack(message string) {
@@ -76,6 +94,10 @@ func main() {
 	pusher := Pusher{push.New(otelExporterEndpoint, "weather")}
 	pusher.send("temperature_max", "temperature", result.max)
 	pusher.send("temperature_min", "temperature", result.min)
+	pusher.send("chance_of_rain_t0006", "chance_of_rain", result.ChanceOfRain.T0006)
+	pusher.send("chance_of_rain_t0612", "chance_of_rain", result.ChanceOfRain.T0612)
+	pusher.send("chance_of_rain_t1218", "chance_of_rain", result.ChanceOfRain.T1218)
+	pusher.send("chance_of_rain_t1824", "chance_of_rain", result.ChanceOfRain.T1824)
 }
 
 type Pusher struct {
