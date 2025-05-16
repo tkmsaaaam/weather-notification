@@ -107,14 +107,14 @@ type Pusher struct {
 func (pusher Pusher) send(k, description string, v int, labels map[string]string) {
 	labels["pusher"] = "weather"
 	label := labels
-	counter := prometheus.NewCounter(prometheus.CounterOpts{
+	gauge := prometheus.NewGauge(prometheus.GaugeOpts{
 		Namespace:   "weather",
 		Name:        k,
 		Help:        description,
 		ConstLabels: label,
 	})
-	counter.Add(float64(v))
-	if err := pusher.Collector(counter).Push(); err != nil {
+	gauge.Add(float64(v))
+	if err := pusher.Collector(gauge).Push(); err != nil {
 		log.Println("can not push", k, err)
 	}
 }
