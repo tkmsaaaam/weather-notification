@@ -94,10 +94,10 @@ func main() {
 	pusher := Pusher{push.New(otelExporterEndpoint, "weather")}
 	pusher.send("temperature_max", "maximum temperature", result.max, map[string]string{"type": "temperature"})
 	pusher.send("temperature_min", "minimum temperature", result.min, map[string]string{"type": "temperature"})
-	pusher.send("chance_of_rain_t0006", "chance of rain", result.ChanceOfRain.T0006, map[string]string{"type": "rain"})
-	pusher.send("chance_of_rain_t0612", "chance of rain", result.ChanceOfRain.T0612, map[string]string{"type": "rain"})
-	pusher.send("chance_of_rain_t1218", "chance of rain", result.ChanceOfRain.T1218, map[string]string{"type": "rain"})
-	pusher.send("chance_of_rain_t1824", "chance of rain", result.ChanceOfRain.T1824, map[string]string{"type": "rain"})
+	pusher.send("chance_of_rain_t0006", "chance of rain", result.ChanceOfRain.T0006/100, map[string]string{"type": "rain"})
+	pusher.send("chance_of_rain_t0612", "chance of rain", result.ChanceOfRain.T0612/100, map[string]string{"type": "rain"})
+	pusher.send("chance_of_rain_t1218", "chance of rain", result.ChanceOfRain.T1218/100, map[string]string{"type": "rain"})
+	pusher.send("chance_of_rain_t1824", "chance of rain", result.ChanceOfRain.T1824/100, map[string]string{"type": "rain"})
 }
 
 type Pusher struct {
