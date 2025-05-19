@@ -22,15 +22,15 @@ type WeatherClient struct {
 }
 
 type ChanceOfRain struct {
-	T0006 int
-	T0612 int
-	T1218 int
-	T1824 int
+	T0006 float64
+	T0612 float64
+	T1218 float64
+	T1824 float64
 }
 
 type Result struct {
-	min          int
-	max          int
+	min          float64
+	max          float64
 	ChanceOfRain *ChanceOfRain
 }
 
@@ -54,12 +54,12 @@ func (weatherClient WeatherClient) getWeather() (*string, *Result) {
 
 	mark := "\n----------\n"
 	message := mark + "日時:" + body.PublicTimeFormatted + "\n概要:" + body.Description.Text[0:lastN] + "\n最低気温:" + todayForecast.Temperature.Min.Celsius + "\n最高気温:" + todayForecast.Temperature.Max.Celsius + "\n" + "\n00-06:" + todayForecast.ChanceOfRain.T0006 + "\n06-12:" + todayForecast.ChanceOfRain.T0612 + "\n12-18:" + todayForecast.ChanceOfRain.T1218 + "\n18-24:" + todayForecast.ChanceOfRain.T1824 + mark
-	max, _ := strconv.Atoi(todayForecast.Temperature.Max.Celsius)
-	min, _ := strconv.Atoi(todayForecast.Temperature.Min.Celsius)
-	t0006, _ := strconv.Atoi(strings.ReplaceAll(todayForecast.ChanceOfRain.T0006, "%", ""))
-	t0612, _ := strconv.Atoi(strings.ReplaceAll(todayForecast.ChanceOfRain.T0612, "%", ""))
-	t1218, _ := strconv.Atoi(strings.ReplaceAll(todayForecast.ChanceOfRain.T1218, "%", ""))
-	t1824, _ := strconv.Atoi(strings.ReplaceAll(todayForecast.ChanceOfRain.T1824, "%", ""))
+	max, _ := strconv.ParseFloat(todayForecast.Temperature.Max.Celsius, 64)
+	min, _ := strconv.ParseFloat(todayForecast.Temperature.Min.Celsius, 64)
+	t0006, _ := strconv.ParseFloat(strings.ReplaceAll(todayForecast.ChanceOfRain.T0006, "%", ""), 64)
+	t0612, _ := strconv.ParseFloat(strings.ReplaceAll(todayForecast.ChanceOfRain.T0612, "%", ""), 64)
+	t1218, _ := strconv.ParseFloat(strings.ReplaceAll(todayForecast.ChanceOfRain.T1218, "%", ""), 64)
+	t1824, _ := strconv.ParseFloat(strings.ReplaceAll(todayForecast.ChanceOfRain.T1824, "%", ""), 64)
 	chanceOfRain := ChanceOfRain{
 		T0006: t0006,
 		T0612: t0612,
@@ -104,7 +104,7 @@ type Pusher struct {
 	*push.Pusher
 }
 
-func (pusher Pusher) send(k, description string, v int, labels map[string]string) {
+func (pusher Pusher) send(k, description string, v float64, labels map[string]string) {
 	labels["pusher"] = "weather"
 	gauge := prometheus.NewGauge(prometheus.GaugeOpts{
 		Namespace:   "weather",
@@ -112,7 +112,7 @@ func (pusher Pusher) send(k, description string, v int, labels map[string]string
 		Help:        description,
 		ConstLabels: labels,
 	})
-	gauge.Set(float64(v))
+	gauge.Set(v)
 	if err := pusher.Collector(gauge).Push(); err != nil {
 		log.Println("can not push", k, err)
 	}
