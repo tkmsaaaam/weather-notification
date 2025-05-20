@@ -81,6 +81,7 @@ func main() {
 	message, result := WeatherClient{weatherClient}.getWeather()
 	client := slack.New(os.Getenv("SLACK_BOT_TOKEN"))
 	SlackClient{client}.postSlack(*message)
+	log.Println(*message)
 	otelExporterEndpoint := os.Getenv("OTEL_EXPORTER_OTLP_METRICS_ENDPOINT")
 	if otelExporterEndpoint == "" {
 		// OTEL_EXPORTER_OTLP_METRICS_ENDPOINT is optional, so no need to log
