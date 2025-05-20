@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/url"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -32,6 +33,7 @@ type Result struct {
 	min          float64
 	max          float64
 	ChanceOfRain *ChanceOfRain
+	wind         float64
 }
 
 func (weatherClient WeatherClient) getWeather() (*string, *Result) {
@@ -66,7 +68,9 @@ func (weatherClient WeatherClient) getWeather() (*string, *Result) {
 		T1218: t1218,
 		T1824: t1824,
 	}
-	return &message, &Result{max: max, min: min, ChanceOfRain: &chanceOfRain}
+	windStr := regexp.MustCompile("[0-9]+").FindString(todayForecast.Detail.Wind)
+	wind, _ := strconv.ParseFloat(windStr, 64)
+	return &message, &Result{max: max, min: min, ChanceOfRain: &chanceOfRain, wind: wind}
 }
 
 func (client SlackClient) postSlack(message string) {
@@ -99,6 +103,7 @@ func main() {
 	pusher.send("chance_of_rain_t0612", "chance of rain", result.ChanceOfRain.T0612/100, map[string]string{"type": "rain"})
 	pusher.send("chance_of_rain_t1218", "chance of rain", result.ChanceOfRain.T1218/100, map[string]string{"type": "rain"})
 	pusher.send("chance_of_rain_t1824", "chance of rain", result.ChanceOfRain.T1824/100, map[string]string{"type": "rain"})
+	pusher.send("wind", "wind", result.wind, map[string]string{"type": "wind"})
 }
 
 type Pusher struct {
