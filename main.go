@@ -55,16 +55,7 @@ func main() {
 	lastN := strings.LastIndex(body.Description.Text, "\n") + 1
 
 	mark := "\n----------\n"
-	message := mark + "日時:" + body.PublicTimeFormatted + "\n概要:" + body.Description.Text[0:lastN] + "\n最低気温:" + todayForecast.Temperature.Min.Celsius + "\n最高気温:" + todayForecast.Temperature.Max.Celsius + "\n" + "\n00-06:" + todayForecast.ChanceOfRain.T0006 + "\n06-12:" + todayForecast.ChanceOfRain.T0612 + "\n12-18:" + todayForecast.ChanceOfRain.T1218 + "\n18-24:" + todayForecast.ChanceOfRain.T1824 + mark
-	max, _ := strconv.ParseFloat(todayForecast.Temperature.Max.Celsius, 64)
-	min, _ := strconv.ParseFloat(todayForecast.Temperature.Min.Celsius, 64)
-	t0006, _ := strconv.ParseFloat(strings.ReplaceAll(todayForecast.ChanceOfRain.T0006, "%", ""), 64)
-	t0612, _ := strconv.ParseFloat(strings.ReplaceAll(todayForecast.ChanceOfRain.T0612, "%", ""), 64)
-	t1218, _ := strconv.ParseFloat(strings.ReplaceAll(todayForecast.ChanceOfRain.T1218, "%", ""), 64)
-	t1824, _ := strconv.ParseFloat(strings.ReplaceAll(todayForecast.ChanceOfRain.T1824, "%", ""), 64)
-
-	windStr := regexp.MustCompile("[0-9]+").FindString(todayForecast.Detail.Wind)
-	wind, _ := strconv.ParseFloat(windStr, 64)
+	message := strings.ReplaceAll(strings.ReplaceAll(mark+"日時:"+body.PublicTimeFormatted+"\n概要:"+body.Description.Text[0:lastN]+"\n最低気温:"+todayForecast.Temperature.Min.Celsius+"\n最高気温:"+todayForecast.Temperature.Max.Celsius+"\n"+"\n00-06:"+todayForecast.ChanceOfRain.T0006+"\n06-12:"+todayForecast.ChanceOfRain.T0612+"\n12-18:"+todayForecast.ChanceOfRain.T1218+"\n18-24:"+todayForecast.ChanceOfRain.T1824+mark, " ", ""), "　", "")
 	client := slack.New(os.Getenv("SLACK_BOT_TOKEN"))
 	SlackClient{client}.postSlack(message)
 	log.Println(message)
@@ -78,6 +69,12 @@ func main() {
 		log.Println("can not parse otel url:", err)
 		return
 	}
+	max, _ := strconv.ParseFloat(todayForecast.Temperature.Max.Celsius, 64)
+	min, _ := strconv.ParseFloat(todayForecast.Temperature.Min.Celsius, 64)
+	t0006, _ := strconv.ParseFloat(strings.ReplaceAll(todayForecast.ChanceOfRain.T0006, "%", ""), 64)
+	t0612, _ := strconv.ParseFloat(strings.ReplaceAll(todayForecast.ChanceOfRain.T0612, "%", ""), 64)
+	t1218, _ := strconv.ParseFloat(strings.ReplaceAll(todayForecast.ChanceOfRain.T1218, "%", ""), 64)
+	t1824, _ := strconv.ParseFloat(strings.ReplaceAll(todayForecast.ChanceOfRain.T1824, "%", ""), 64)
 	pusher := Pusher{push.New(otelExporterEndpoint, "weather")}
 	pusher.send("temperature_max", "maximum temperature", max, map[string]string{"type": "temperature"})
 	pusher.send("temperature_min", "minimum temperature", min, map[string]string{"type": "temperature"})
@@ -85,7 +82,6 @@ func main() {
 	pusher.send("chance_of_rain_t0612", "chance of rain", t0612/100, map[string]string{"type": "rain"})
 	pusher.send("chance_of_rain_t1218", "chance of rain", t1218/100, map[string]string{"type": "rain"})
 	pusher.send("chance_of_rain_t1824", "chance of rain", t1824/100, map[string]string{"type": "rain"})
-	pusher.send("wind", "wind", wind, map[string]string{"type": "wind"})
 }
 
 type Pusher struct {
