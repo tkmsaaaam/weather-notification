@@ -24,26 +24,39 @@ func TestGetWeather(t *testing.T) {
 		status int
 		body   string
 	}
-	type wants struct {
-		message *string
-		print   string
-	}
 	weatherTokyo, _ := testdata.ReadFile("testdata/weather/TOKYO.json")
-	weatherIsOk := "\n----------\n日時:2023/05/01 17:00:00\n概要:晴れています。\n夜は月が見えるでしょう。\n\n最低気温:0\n最高気温:30\n\n00-06:--%\n06-12:00%\n12-18:50%\n18-24:70%\n----------\n"
+
 	tests := []struct {
 		name   string
 		apiRes res
-		want   wants
+		want   *weather.Forecast
 	}{
 		{
 			name:   "watherIsOk",
 			apiRes: res{status: 200, body: string(weatherTokyo)},
-			want:   wants{message: &weatherIsOk, print: ""},
+			want: &weather.Forecast{
+				Date:      "2023-05-19",
+				DateLabel: "今日",
+				Temperature: weather.Temperature{
+					Min: weather.DetailTemperature{
+						Celsius: "0",
+					},
+					Max: weather.DetailTemperature{
+						Celsius: "30",
+					},
+				},
+				ChanceOfRain: weather.ChanceOfRain{
+					T0006: "--%",
+					T0612: "00%",
+					T1218: "50%",
+					T1824: "70%",
+				},
+			},
 		},
 		{
 			name:   "apiIsError",
 			apiRes: res{status: 500, body: "Internal Server Error"},
-			want:   wants{message: nil, print: "Error Request API weather-api-go: request is failed. <nil>"},
+			want:   nil,
 		},
 	}
 	for _, tt := range tests {
@@ -68,15 +81,35 @@ func TestGetWeather(t *testing.T) {
 				log.SetFlags(defaultFlags)
 				buf.Reset()
 			}()
-			got, _ := weatherClient.getWeather()
-			if got != tt.want.message {
-				if *got != *tt.want.message {
-					t.Errorf("getWeather() = %v, want %v", *got, *tt.want.message)
-				}
+			_, got := weatherClient.getWeather()
+			if tt.want == nil && got != nil || tt.want != nil && got == nil {
+				t.Errorf("getWeather() = %v, want %v", got, tt.want)
 			}
-			gotPrint := strings.TrimRight(buf.String(), "\n")
-			if gotPrint != tt.want.print {
-				t.Errorf("log = %v, want %v", gotPrint, tt.want.print)
+			if got != nil || tt.want != nil {
+				if got.Date != tt.want.Date {
+					t.Errorf("getWeather().Date = %v, want %v", got.Date, tt.want.Date)
+				}
+				if got.DateLabel != tt.want.DateLabel {
+					t.Errorf("getWeather().DateLabel = %v, want %v", got.DateLabel, tt.want.DateLabel)
+				}
+				if got.Temperature.Min.Celsius != tt.want.Temperature.Min.Celsius {
+					t.Errorf("getWeather().Temperature.Min.Celsius = %v, want %v", got.DateLabel, tt.want.DateLabel)
+				}
+				if got.Temperature.Max.Celsius != tt.want.Temperature.Max.Celsius {
+					t.Errorf("getWeather().Temperature.Min.Celsius = %v, want %v", got.DateLabel, tt.want.DateLabel)
+				}
+				if got.ChanceOfRain.T0006 != tt.want.ChanceOfRain.T0006 {
+					t.Errorf("getWeather().ChanceOfRain.T0006 = %v, want %v", got.ChanceOfRain.T0006, tt.want.ChanceOfRain.T0006)
+				}
+				if got.ChanceOfRain.T0612 != tt.want.ChanceOfRain.T0612 {
+					t.Errorf("getWeather().ChanceOfRain.T0612 = %v, want %v", got.ChanceOfRain.T0612, tt.want.ChanceOfRain.T0612)
+				}
+				if got.ChanceOfRain.T1218 != tt.want.ChanceOfRain.T1218 {
+					t.Errorf("getWeather().ChanceOfRain.T1218 = %v, want %v", got.ChanceOfRain.T1218, tt.want.ChanceOfRain.T1218)
+				}
+				if got.ChanceOfRain.T1824 != tt.want.ChanceOfRain.T1824 {
+					t.Errorf("getWeather().ChanceOfRain.T1824 = %v, want %v", got.ChanceOfRain.T1824, tt.want.ChanceOfRain.T1824)
+				}
 			}
 		})
 	}

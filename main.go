@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/url"
 	"os"
-	"regexp"
 	"strconv"
 	"strings"
 
